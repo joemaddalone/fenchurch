@@ -1,0 +1,73 @@
+[
+	{
+		"id": "antigravity",
+		"name": "Antigravity",
+		"dirPath": ".agent/rules",
+		"useSourceFilename": true
+	},
+	{
+		"id": "aider",
+		"name": "Aider",
+		"dirPath": ".aider",
+		"useSourceFilename": true
+	},
+	{
+		"id": "claude",
+		"name": "Claude Code",
+		"targetPath": "CLAUDE.MD",
+		"dirPath": "",
+		"useSourceFilename": false
+	},
+	{
+		"id": "cline",
+		"name": "Cline",
+		"dirPath": ".clinerules",
+		"useSourceFilename": true
+	},
+	{
+		"id": "codex",
+		"name": "ChatGPT Codex",
+		"targetPath": "AGENTS.md",
+		"dirPath": "",
+		"useSourceFilename": false
+	},
+	{
+		"id": "continue",
+		"name": "Continue",
+		"dirPath": ".continue",
+		"useSourceFilename": true
+	},
+	{
+		"id": "copilot",
+		"name": "GitHub Copilot",
+		"targetPath": ".github/copilot-instructions.md",
+		"dirPath": ".github",
+		"useSourceFilename": false
+	},
+	{
+		"id": "cursor",
+		"name": "Cursor",
+		"dirPath": ".cursor/rules",
+		"useSourceFilename": true
+	},
+	{
+		"id": "kiro",
+		"name": "Kiro",
+		"targetPath": "AGENTS.MD",
+		"dirPath": "",
+		"useSourceFilename": false
+	},
+	{
+		"id": "opencode",
+		"name": "OpenCode",
+		"targetPath": "AGENTS.MD",
+		"dirPath": "",
+		"useSourceFilename": false
+	},
+	{
+		"id": "windsurf",
+		"name": "Windsurf",
+		"dirPath": ".windsurf/rules",
+		"useSourceFilename": true
+	}
+]
