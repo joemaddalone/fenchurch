@@ -1,4 +1,4 @@
-# Fenchurch
+# fenchurch
 
 A CLI tool to initialize projects with AI tooling and prompts. This is very much ME opinionated and always changing, but you are welcome to use it.
 
