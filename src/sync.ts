@@ -3,11 +3,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const rootPath = process.cwd();
-const sourcePath = path.join(rootPath, "prompts/instructions.md");
-const configFile = path.join(rootPath, "ai-config.json");
-const platforms = JSON.parse(await fs.readFile(configFile, "utf-8"));
-
 interface Platform {
 	id: string;
 	name: string;
@@ -15,7 +10,67 @@ interface Platform {
 	useSourceFilename: boolean;
 	targetPath?: string;
 	selected?: boolean;
+	ignore?: string;
 }
+
+const rootPath = process.cwd();
+const sourcePath = path.join(rootPath, "prompts/instructions.md");
+const configFile = path.join(rootPath, "ai-config.json");
+const gitignorePath = path.join(rootPath, ".gitignore");
+
+let platforms: Platform[] = [];
+
+try {
+	platforms = JSON.parse(await fs.readFile(configFile, "utf-8"));
+} catch {
+	// Fall back to src/ai-config.json for test/runtime inside repo
+	try {
+		platforms = JSON.parse(
+			await fs.readFile(path.join(rootPath, "src/ai-config.json"), "utf-8"),
+		);
+	} catch {
+		platforms = [];
+	}
+}
+
+
+const readGitignore = async (gitignore = gitignorePath) => {
+	try {
+		return (await fs.readFile(gitignore, "utf-8")).split(/\r?\n/);
+	} catch {
+		return [] as string[];
+	}
+};
+
+const writeGitignore = async (lines: string[], gitignore = gitignorePath) => {
+	// Ensure file ends with a single trailing newline
+	const content = `${lines.filter(Boolean).join("\n")}\n`;
+	await fs.writeFile(gitignore, content, "utf-8");
+};
+
+const ensureGitignoreIncludes = async (
+	entries: string[],
+	gitignore = gitignorePath,
+) => {
+	if (!entries || entries.length === 0) return { added: 0 };
+	const existing = await readGitignore(gitignore);
+	const existingSet = new Set(existing.map((l) => l.trim()));
+	let added = 0;
+	for (const e of entries) {
+		if (!e) continue;
+		const trimmed = e.trim();
+		if (trimmed === "") continue;
+		if (!existingSet.has(trimmed)) {
+			existing.push(trimmed);
+			existingSet.add(trimmed);
+			added++;
+		}
+	}
+	if (added > 0) {
+		await writeGitignore(existing, gitignore);
+	}
+	return { added };
+};
 
 const exists = async (p: string) => {
 	try {
@@ -113,6 +168,18 @@ const syncFiles = async () => {
 	const tasks = selected.map((p: Platform) => syncPlatform(p));
 	const results = await Promise.all(tasks);
 	showResults(results);
+
+	// Ensure .gitignore contains any ignore entries from the selected platforms
+	try {
+		const ignores = selected.map((p) => p.ignore).filter(Boolean) as string[];
+		const { added } = await ensureGitignoreIncludes(ignores);
+		if (added > 0) {
+			console.log(`Added ${added} entry(ies) to .gitignore`);
+		}
+	} catch (err) {
+		console.error(`Failed to update .gitignore: ${(err as Error).message}`);
+	}
+
 	const successCount = results.filter((r) => r.ok).length;
 	console.log(`Synced to ${successCount}/${selected.length} platform(s)`);
 };
@@ -125,9 +192,11 @@ const main = async () => {
 	await syncFiles();
 };
 
-export { main, syncFiles, formatTarget };
+export { main, syncFiles, formatTarget, ensureGitignoreIncludes };
 
-main().catch((err) => {
-	console.error(err);
-	process.exit(1);
-});
+if (process.env.NODE_ENV !== "test") {
+	main().catch((err) => {
+		console.error(err);
+		process.exit(1);
+	});
+}

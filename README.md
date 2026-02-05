@@ -2,18 +2,12 @@
 
 A CLI tool to initialize projects with AI tooling and prompts. This is very much ME opinionated and always changing, but you are welcome to use it.
 
-## Installation
-
-```bash
-npm install -g fenchurch
-```
-
 ## Usage
 
 Run fenchurch in any directory where you want to set up AI tooling:
 
 ```bash
-fenchurch
+npx fenchurch
 ```
 
 The tool will:

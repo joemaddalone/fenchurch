@@ -1,73 +1,83 @@
 [
 	{
-		"id": "antigravity",
-		"name": "Antigravity",
 		"dirPath": ".agent/rules",
+		"id": "antigravity",
+		"ignore": ".agent",
+		"name": "Antigravity",
 		"useSourceFilename": true
 	},
 	{
-		"id": "aider",
-		"name": "Aider",
 		"dirPath": ".aider",
+		"id": "aider",
+		"ignore": ".aider",
+		"name": "Aider",
 		"useSourceFilename": true
 	},
 	{
+		"dirPath": "",
 		"id": "claude",
+		"ignore": "CLAUDE.MD",
 		"name": "Claude Code",
 		"targetPath": "CLAUDE.MD",
-		"dirPath": "",
 		"useSourceFilename": false
 	},
 	{
-		"id": "cline",
-		"name": "Cline",
 		"dirPath": ".clinerules",
+		"id": "cline",
+		"ignore": ".clinerules",
+		"name": "Cline",
 		"useSourceFilename": true
 	},
 	{
+		"dirPath": "",
 		"id": "codex",
+		"ignore": "AGENTS.MD",
 		"name": "ChatGPT Codex",
 		"targetPath": "AGENTS.md",
-		"dirPath": "",
 		"useSourceFilename": false
 	},
 	{
-		"id": "continue",
-		"name": "Continue",
 		"dirPath": ".continue",
+		"id": "continue",
+		"ignore": ".continue",
+		"name": "Continue",
 		"useSourceFilename": true
 	},
 	{
+		"dirPath": ".github",
 		"id": "copilot",
 		"name": "GitHub Copilot",
 		"targetPath": ".github/copilot-instructions.md",
-		"dirPath": ".github",
 		"useSourceFilename": false
 	},
 	{
-		"id": "cursor",
-		"name": "Cursor",
 		"dirPath": ".cursor/rules",
+		"id": "cursor",
+		"ignore": ".cursor",
+		"name": "Cursor",
 		"useSourceFilename": true
 	},
 	{
+		"dirPath": "",
 		"id": "kiro",
+		"ignore": "AGENTS.MD",
 		"name": "Kiro",
 		"targetPath": "AGENTS.MD",
-		"dirPath": "",
 		"useSourceFilename": false
 	},
 	{
+		"dirPath": "",
 		"id": "opencode",
+		"ignore": "AGENTS.MD",
 		"name": "OpenCode",
 		"targetPath": "AGENTS.MD",
-		"dirPath": "",
 		"useSourceFilename": false
 	},
 	{
-		"id": "windsurf",
-		"name": "Windsurf",
 		"dirPath": ".windsurf/rules",
+		"id": "windsurf",
+		"ignore": ".windsurf",
+		"name": "Windsurf",
 		"useSourceFilename": true
 	}
 ]

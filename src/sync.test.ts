@@ -53,3 +53,34 @@ describe("sync functionality", () => {
 		expect(formatTarget(platform)).toBe("TEST.MD");
 	});
 });
+
+import os from "node:os";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { ensureGitignoreIncludes } from "./sync";
+
+describe(".gitignore updates", () => {
+	it("creates .gitignore and adds entries when missing", async () => {
+		const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "fench-"));
+		const giPath = path.join(tmp, ".gitignore");
+
+		await ensureGitignoreIncludes([".agent", "CLAUDE.MD"], giPath);
+
+		const content = await fs.readFile(giPath, "utf-8");
+		expect(content.split(/\r?\n/).filter(Boolean)).toEqual(
+			expect.arrayContaining([".agent", "CLAUDE.MD"])
+		);
+	});
+
+	it("does not duplicate existing entries", async () => {
+		const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "fench-"));
+		const giPath = path.join(tmp, ".gitignore");
+		await fs.writeFile(giPath, ".agent\n", "utf-8");
+
+		await ensureGitignoreIncludes([".agent", ".aider"], giPath);
+
+		const content = await fs.readFile(giPath, "utf-8");
+		const lines = content.split(/\r?\n/).filter(Boolean);
+		expect(lines).toEqual([".agent", ".aider"]);
+	});
+});
