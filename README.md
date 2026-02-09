@@ -7,7 +7,11 @@ A CLI tool to initialize projects with AI tooling and prompts. This is very much
 Run fenchurch in any directory where you want to set up AI tooling:
 
 ```bash
+# Interactive mode
 npx fenchurch
+
+# Skip prompts by passing tool IDs as flags
+npx fenchurch --claude --cursor --antigravity
 ```
 
 The tool will:

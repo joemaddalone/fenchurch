@@ -43,31 +43,43 @@ const main = async () => {
 			await fs.readFile(configPath, "utf-8"),
 		);
 
-		// Check for existing config in current directory
-		const existingConfigPath = path.join(process.cwd(), "ai-config.json");
 		let selectedAIs: string[] = [];
 
-		try {
-			await fs.access(existingConfigPath);
-			const { useExisting } = await inquirer.prompt([
-				{
-					type: "confirm",
-					name: "useExisting",
-					message: "Found existing ai-config.json. Use existing settings?",
-					default: true,
-				},
-			]);
+		// Check for manually passed in flags
+		const argFlags = process.argv
+			.slice(2)
+			.filter((arg) => arg.startsWith("--"))
+			.map((arg) => arg.slice(2));
 
-			if (useExisting) {
-				const existingConfig: AIConfig[] = JSON.parse(
-					await fs.readFile(existingConfigPath, "utf-8"),
-				);
-				selectedAIs = existingConfig
-					.filter((config) => config.selected)
-					.map((config) => config.id);
+		const validIds = aiConfigs.map((config) => config.id);
+		selectedAIs = argFlags.filter((flag) => validIds.includes(flag));
+
+		if (selectedAIs.length === 0) {
+			// Check for existing config in current directory
+			const existingConfigPath = path.join(process.cwd(), "ai-config.json");
+
+			try {
+				await fs.access(existingConfigPath);
+				const { useExisting } = await inquirer.prompt([
+					{
+						type: "confirm",
+						name: "useExisting",
+						message: "Found existing ai-config.json. Use existing settings?",
+						default: true,
+					},
+				]);
+
+				if (useExisting) {
+					const existingConfig: AIConfig[] = JSON.parse(
+						await fs.readFile(existingConfigPath, "utf-8"),
+					);
+					selectedAIs = existingConfig
+						.filter((config) => config.selected)
+						.map((config) => config.id);
+				}
+			} catch {
+				// No existing config, continue normally
 			}
-		} catch {
-			// No existing config, continue normally
 		}
 
 		// If no existing config or user chose to start fresh, prompt for selection
