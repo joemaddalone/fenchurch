@@ -44,6 +44,14 @@
 		"useSourceFilename": true
 	},
 	{
+		"dirPath": "",
+		"id": "gemini",
+		"ignore": ".gemini",
+		"name": "Gemini",
+		"targetPath": "GEMINI.md",
+		"useSourceFilename": false
+	},
+	{
 		"dirPath": ".github",
 		"id": "copilot",
 		"ignore": ".github/copilot-instructions.md",
@@ -72,6 +80,14 @@
 		"ignore": "AGENTS.MD",
 		"name": "OpenCode",
 		"targetPath": "AGENTS.MD",
+		"useSourceFilename": false
+	},
+	{
+		"dirPath": "",
+		"id": "qwen",
+		"ignore": "QWEN.MD",
+		"name": "Qwen",
+		"targetPath": "QWEN.MD",
 		"useSourceFilename": false
 	},
 	{
