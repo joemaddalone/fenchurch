@@ -33,6 +33,7 @@ The tool will:
 - Cursor
 - Kiro
 - OpenCode
+- Qwen Code
 - Windsurf
 
 ## Re-running
