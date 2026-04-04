@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
+import process from "node:process";
 import inquirer from "inquirer";
 import ora from "ora";
 
